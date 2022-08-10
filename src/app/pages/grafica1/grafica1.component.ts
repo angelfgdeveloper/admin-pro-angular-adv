@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-grafica1',
@@ -6,11 +6,44 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class Grafica1Component implements OnInit {
+export class Grafica1Component {
 
-  constructor() { }
+  labels: string[] = [
+    'Label 1',
+    'Label 2',
+    'Label 3'
+  ];
 
-  ngOnInit(): void {
-  }
+  labels1: string[] = [
+    'Download Sales',
+    'In-Store Sales',
+    'Mail-Order Sales'
+  ];
+
+  datasets = [
+    {
+      data: [
+        Math.round(Math.random() * 100),
+        Math.round(Math.random() * 100),
+        Math.round(Math.random() * 100),
+      ],
+      backgroundColor: ['#6857E6','#009FEE','#F02059'],
+      hoverBackgroundColor: ['#6857E6','#009FEE','#F02059'],
+      hoverBorderColor: ['#6857E6','#009FEE','#F02059']
+    },
+  ];
+
+  datasets1 = [
+    {
+      data: [
+        Math.round(Math.random() * 100),
+        Math.round(Math.random() * 100),
+        Math.round(Math.random() * 100),
+      ],
+      backgroundColor: ['#6857E6','#009FEE','#F02059'],
+      hoverBackgroundColor: ['#6857E6','#009FEE','#F02059'],
+      hoverBorderColor: ['#6857E6','#009FEE','#F02059']
+    },
+  ];
 
 }

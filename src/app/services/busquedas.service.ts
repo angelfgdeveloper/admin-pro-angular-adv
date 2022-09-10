@@ -43,12 +43,17 @@ export class BusquedasService {
     return resultados;
   }
 
+  busquedaGlobal(termino: string) {
+    const url = `${ baseUrl }/search/${ termino }`;
+    return this.http.get<any[]>(url, this.headers);
+  }
+
   // /search/coleccion/usuarios/e
   buscar(
     tipo: 'usuarios' | 'medicos' | 'hospitales',
     termino: string = ''
   ) {
-    const url = `${ baseUrl }/search/coleccion/${ tipo }/${ termino }`
+    const url = `${ baseUrl }/search/coleccion/${ tipo }/${ termino }`;
     return this.http.get<any[]>(url, this.headers).pipe(
       map((resp: any) => {
         switch (tipo) {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Usuario } from 'src/app/models/usuario.model';
 
@@ -15,9 +16,17 @@ export class HeaderComponent {
   public usuario!: Usuario;
 
   constructor(
-    private usuarioServices: UsuarioService
+    private usuarioServices: UsuarioService,
+    private router: Router,
   ) {
     this.usuario = usuarioServices.usuario;
+  }
+
+  buscar(termino: string) {
+    if (termino.trim().length === 0) {
+      return;
+    }
+    this.router.navigateByUrl(`/dashboard/buscar/${ termino.trim() }`);
   }
 
   logout() {

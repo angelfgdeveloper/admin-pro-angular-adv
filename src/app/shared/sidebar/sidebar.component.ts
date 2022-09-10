@@ -14,13 +14,13 @@ import { SidebarService } from '../../services/sidebar.service';
 export class SidebarComponent implements OnInit {
 
   public usuario!: Usuario;
-  public menuItems: any[] = [];
+  // public menuItems: any[] = [];
 
   constructor(
-    private sidebarService: SidebarService,
+    public sidebarService: SidebarService,
     private usuarioServices: UsuarioService
   ) {
-    this.menuItems = sidebarService.menu;
+    // this.menuItems = sidebarService.menu;
     this.usuario = usuarioServices.usuario;
     //console.warn(this.menuItems);
   }

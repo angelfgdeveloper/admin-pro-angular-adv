@@ -34,6 +34,10 @@ export class UsuarioService {
     return localStorage.getItem('token') || '';
   }
 
+  get role() : 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role!;
+  }
+
   get uid(): string {
     return this.usuario.uid || '';
   }
@@ -44,6 +48,11 @@ export class UsuarioService {
     }
   }
 
+  guardarLocalStorage(token: string, menu: any) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu',  JSON.stringify(menu));
+  }
+
   validarToken(): Observable<boolean> {
     return this.http.get(`${ baseUrl }/login/renew`, {
       headers: { 'x-token': this.token }
@@ -51,7 +60,7 @@ export class UsuarioService {
       map((resp: any) => {
         const { email, google, nombre, role, img = '', uid } = resp.usuario;
         this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu);
 
         return true;
       }),
@@ -65,9 +74,7 @@ export class UsuarioService {
     // console.log('Creando usuario');
     // console.log(formData);
     return this.http.post(`${ baseUrl }/usuarios`, formData).pipe(
-      tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
-      }),
+      tap((resp: any) => this.guardarLocalStorage(resp.token, resp.menu)),
     );
   }
 
@@ -83,22 +90,21 @@ export class UsuarioService {
   login(formData: any) {
     const formLogin: LoginForm = formData;
     return this.http.post(`${ baseUrl }/login`, formLogin).pipe(
-      tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
-      }),
+      tap((resp: any) => this.guardarLocalStorage(resp.token, resp.menu)),
     );
   }
 
   loginGoogle(token: string) {
     return this.http.post(`${ baseUrl }/login/google`, { token }).pipe(
-      tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
-      }),
+      tap((resp: any) => this.guardarLocalStorage(resp.token, resp.menu)),
     );
   }
 
   logout() {
     localStorage.removeItem('token');
+
+    // Borrar menu
+    localStorage.removeItem('menu');
 
     if (this.usuario.google) {
       google.accounts.id.revoke(this.usuario.email, () => {
